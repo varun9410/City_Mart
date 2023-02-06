@@ -1,0 +1,4 @@
+django
+pillow
+django-shopping-cart
+mysqlclient
