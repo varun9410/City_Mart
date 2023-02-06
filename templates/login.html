@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>{% include 'navbar.html' %}</div>
+    <div>
+      <form id="login" class="input-group" method="POST"> {% csrf_token %}
+        <input type="text" class="input-field" name="User_id" placeholder="User Id" required />
+        <input
+          type="text"
+          class="input-field"
+          name='password'
+          placeholder="Enter-Password"
+          required
+        />
+        <button type="submit" class="submit-btn">Login In</button>
+      </form>
+    </div>
+    <p>
+      {% if messages%} {%for i in messages%}
+      <p>{{i}}</p>
+      <script>alert("{{i}}");</script>
+      {%endfor%} {%endif%}
+    </p>
+    <div>{% include 'footer.html' %}</div>
+    {%if user.is_authenticated%}
+    <p>{{user.name}}</p>
+    {%endif%}
+  </body>
+</html>
