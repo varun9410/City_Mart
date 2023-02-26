@@ -4,6 +4,8 @@ from .models import Product,Contact,Category,Review
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login as auth_login,logout as auth_logout
 from django.contrib.auth.decorators import login_required
+from kafka import KafkaProducer
+import json
 def index(request):
 	if request.method=='POST':
 		search_item=request.POST['search']
@@ -19,6 +21,8 @@ def index(request):
 	return render(request, "index.html",category)
 
 def shop(request):
+	data=request.META.get('REMOTE_ADDR')
+	send_data(data)
 	product=Product.objects.all()
 	product={'product':product}
 	return render(request,'shop.html',product)
@@ -105,6 +109,10 @@ def detail2(request):
 ##	product=Product.objects.filter(category=category)
 ##	return render(request,'shop.html',product)
 
+def send_data(data):
+    kafka=KafkaProducer(bootstrap_servers='localhost:9092',
+            value_serializer=lambda v: json.dumps(v).encode('utf-8'))
+    kafka.send('store-data',{'ip':data})
 
 
 
