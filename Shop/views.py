@@ -8,7 +8,7 @@ from kafka import KafkaProducer
 import json
 def index(request):
 	page='Home'
-	send_data(page,request)
+	#send_data(page,request)
 	if request.method=='POST':
 		search_item=request.POST['search']
 		product=Product.objects.filter(name__contains=search_item) | Product.objects.filter(sub_category__contains=search_item)
@@ -20,12 +20,12 @@ def index(request):
 			return render(request,'shop.html')
 	category=Category.objects.all()
 	category={'category':category}
-	log_time_spent(request)
+	#log_time_spent(request)
 	return render(request, "index.html",category)
 
 def shop(request):
-	page='shop'
-	send_data(page,request)
+	#page='shop'
+	#send_data(page,request)
 	product=Product.objects.all()
 	product={'product':product}
 	return render(request,'shop.html',product)
@@ -38,8 +38,8 @@ def shop_by_category(request,category):
 
 @login_required(login_url='/login')
 def detail(request,product_id):
-	page='product_id'
-	send_data(page,request)
+	#page='product_id'
+	#send_data(page,request)
 	product=Product.objects.filter(id=product_id)
 	review=Review.objects.filter(Product_id=product_id)
 	context={'product':product,
@@ -54,15 +54,15 @@ def detail(request,product_id):
 	return render(request,'detail.html',context)
 
 def product(request):
-	page='product-page'
-	send_data(page,request)
+	#page='product-page'
+	#send_data(page,request)
 	obj=Product.objects.all()
 	obj={'obj':obj}
 	return render(request,'product.html',obj)
 # Authentication System
 def register(request):
-	page='register'
-	send_data(page,request)
+	#page='register'
+	#send_data(page,request)
 	if request.method=='POST':
 		first_name=request.POST['first_name']
 		last_name=request.POST['last_name']
@@ -84,8 +84,8 @@ def register(request):
 	return render(request,'register.html')
 
 def login(request):
-	page='login'
-	send_data(page,request)
+	#page='login'
+	#send_data(page,request)
 	if request.method=='POST':
 		User=request.POST['User_id']
 		password=request.POST['password']
@@ -100,15 +100,15 @@ def login(request):
 
 @login_required(login_url='/login')
 def logout(request):
-	page='logout'
-	send_data(page,request)
+	#page='logout'
+	#send_data(page,request)
 	auth_logout(request)
 	return redirect('/')
 
 # Contact form
 def contact(request):
-	page='contact'
-	send_data(page,request)
+	#page='contact'
+	#send_data(page,request)
 	if request.method=='POST':
 		contact=Contact()
 		contact.Name= request.POST['name']
@@ -135,17 +135,20 @@ import json
 from kafka import KafkaProducer
 
 def send_data(page, request):
-	data=request.META.get('REMOTE_ADDR')	
+    data = request.META.get('REMOTE_ADDR')	
     time = datetime.datetime.now()
 
     kafka = KafkaProducer(
         bootstrap_servers='localhost:9092',
         value_serializer=lambda v: json.dumps(v).encode('utf-8')
     )
-    end_point = request.META.get('PATH_INFO')
+
+    endpoint = request.META.get('PATH_INFO')
+
     if request.user is not None:
         user = request.user
     else:
         user = 'null'
 
-    kafka.send('store-data', {'user': str(user), 'ip': data, 'page': page,'endpoint':endpoint,'datetime': str(time)})
+    kafka.send('store-data', {'user': str(user), 'ip': data, 'page': str(page), 'endpoint': endpoint, 'datetime': str(time)})
+
