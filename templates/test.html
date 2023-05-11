@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Upload</title>
+</head>
+<body>
+    <form id="upload-form" method="post" enctype="multipart/form-data" style="margin-left: 10px;">
+        {% csrf_token %}
+        <label for="image-upload" style="cursor: pointer;">
+            <img src="{% static 'img/camera.png' %}" alt="Camera Icon" width="30" height="30">
+        </label>
+        <input id="image" type="file" name="image" style="display: none;" accept="image/*">
+    </form>  
+    <script>
+        document.getElementById('image').addEventListener('change', function() {
+            document.getElementById('upload-form').submit();
+        });
+    </script>
+</body>
+</html>

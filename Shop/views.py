@@ -121,8 +121,11 @@ def contact(request):
 import requests
 from django.http import HttpResponse
 
+import requests
+from django.http import HttpResponse
+
 def send_image_file(file):
-    api_url = 'http://127.0.0.1:5000'  # Replace with your API endpoint URL
+    api_url = 'http://127.0.0.1:5000/find_product'  # Replace with your API endpoint URL
 
     # Prepare the data to be sent to the API endpoint
     files = {'image': file}
@@ -141,16 +144,16 @@ def send_image_file(file):
 
 def find_product(request):
     if request.method == 'POST':
-        image_file = request.FILES.get('image')
+        image_file = request.FILES['image']
 
         # Call the function to send the image file and retrieve the API response
         api_response = send_image_file(image_file)
 
         if api_response is not None:
             # Process the API response
-            # ...
-            print(api_response)
-            return HttpResponse('Image processed successfully!')
+            product = Product.objects.filter(id__in=api_response)
+            context = {'product': product}
+            return render(request, 'detail.html', context)
 
     return HttpResponse('Image processing failed!')
 

@@ -58,7 +58,16 @@
                     </span>
                   </div>
                 </button>
-              </form>            
+              </form> 
+              <form id="upload-form" action="{% url 'find_product' %}" method="post" enctype="multipart/form-data" style="margin-left: 10px;">
+                {% csrf_token %}
+                <label for="image" style="cursor: pointer;">
+                    <img src="{% static 'img/camera.png' %}" alt="Camera Icon" width="30" height="30">
+                </label>
+                <input id="image" type="file" name="image" style="display: none;" accept="image/*">
+                <input type="submit" style="display: none;">
+            </form>
+                          
               </div>
           </div>
           <div style="padding-left: 150px"></div>
@@ -200,7 +209,7 @@
       <!-- Navbar End -->
     </div>
     <script>
-      document.getElementById('image-upload').addEventListener('change', function() {
+      document.getElementById('image').addEventListener('change', function() {
           document.getElementById('upload-form').submit();
       });
   </script>
