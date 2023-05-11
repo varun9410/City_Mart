@@ -118,8 +118,43 @@ def contact(request):
 		contact.save()
 		print('success gfsef')
 	return render(request,'contact.html')
-def detail2(request):
-	return render(request,'ex.html')
+import requests
+from django.http import HttpResponse
+
+def send_image_file(file):
+    api_url = 'http://127.0.0.1:5000'  # Replace with your API endpoint URL
+
+    # Prepare the data to be sent to the API endpoint
+    files = {'image': file}
+
+    # Send a POST request to the API endpoint
+    response = requests.post(api_url, files=files)
+
+    if response.status_code == 200:
+        # Handle the API response
+        api_response = response.json()
+        # Process the response as needed
+        return api_response
+
+    # Return None or raise an exception if the request fails
+    return None
+
+def find_product(request):
+    if request.method == 'POST':
+        image_file = request.FILES.get('image')
+
+        # Call the function to send the image file and retrieve the API response
+        api_response = send_image_file(image_file)
+
+        if api_response is not None:
+            # Process the API response
+            # ...
+            print(api_response)
+            return HttpResponse('Image processed successfully!')
+
+    return HttpResponse('Image processing failed!')
+
+
 ##def product_by_category(request,category):
 ##	product=Product.objects.filter(category=category)
 ##	return render(request,'shop.html',product)
