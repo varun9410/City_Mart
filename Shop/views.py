@@ -122,7 +122,7 @@ import requests
 from django.http import HttpResponse
 
 def send_image_file(file):
-    api_url = 'http://127.0.0.1:5000'  # Replace with your API endpoint URL
+    api_url = 'https://varun9410-psychic-eureka-x77p5q6rxqcv6x4-5000.preview.app.github.dev/find_product'  # Replace with your API endpoint URL
 
     # Prepare the data to be sent to the API endpoint
     files = {'image': file}

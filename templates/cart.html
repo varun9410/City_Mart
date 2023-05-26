@@ -138,7 +138,7 @@
               <div class="d-flex justify-content-between">
                 <h6 class="font-weight-medium">Shipping</h6>
                 {%if 'cart_total_amount<300' %}
-                <h6 class="font-weight-medium">$10</h6>
+                <h6 class="font-weight-medium">&#8377; 100.</h6>
                 {%endif%}
               </div>
             </div>
@@ -147,11 +147,12 @@
                 <h5>Total</h5>
                 <h5>&#8377; {{cart_total_amount}}</h5>
               </div>
+              <a href="/checkout">
               <button
                 class="btn btn-block btn-primary font-weight-bold my-3 py-3"
               >
                 Proceed To Checkout
-              </button>
+              </button></a>
             </div>
           </div>
         </div>

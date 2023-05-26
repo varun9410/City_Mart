@@ -58,7 +58,14 @@
                     </span>
                   </div>
                 </button>
-              </form>            
+              </form> 
+              <form id="upload-form" action="{% url 'find_product' %}" method="post" enctype="multipart/form-data" style="margin-left: 10px;">
+                {% csrf_token %}
+                <label for="image-upload" style="cursor: pointer;">
+                    <img src="{% static 'img/camera.png' %}" alt="Camera Icon" width="30" height="30">
+                </label>
+                <input id="image-upload" type="file" name="image" style="display: none;" accept="image/*">
+            </form>           
               </div>
           </div>
           <div style="padding-left: 150px"></div>

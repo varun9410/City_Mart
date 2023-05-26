@@ -42,3 +42,13 @@ class rating(models.Model):
   User_id=models.ForeignKey(User,on_delete=models.CASCADE)
   rating=models.IntegerField(default=0)
   date=models.DateField(auto_now=True)
+class Profile(models.Model):
+  user_id=models.ForeignKey(User,on_delete=models.CASCADE)
+  first_name=models.CharField(max_length=100,default='')
+  last_name=models.CharField(max_length=100,default='')
+  Phone_no=models.IntegerField(default=0)
+  email=models.EmailField()
+  address=models.CharField(max_length=300,default='')
+  city=models.CharField(max_length=50,default='')
+  state=models.CharField(max_length=50,default='')
+  zip=models.CharField(max_length=50,default='')
